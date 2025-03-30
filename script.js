@@ -32,11 +32,12 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%"; 
         document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
         document.querySelector(".weather").classList.remove("loading");
-        // Debug log for Unsplash URL
-        const unsplashUrl = "https://source.unsplash.com/1600x900/?" + name;
-        console.log("Unsplash URL:", unsplashUrl);  // Check what URL is being generated
-        
-        // Set background image
+         // Encoding the city name to avoid any URL issues with special characters or spaces
+        const encodedCityName = encodeURIComponent(name);
+
+        // Set background image with the encoded city name
+        const unsplashUrl = `https://source.unsplash.com/1600x900/?${encodedCityName}`;
+        console.log("Unsplash URL:", unsplashUrl);  // Log the URL for debugging
         document.body.style.backgroundImage = `url('${unsplashUrl}')`;
         
         
