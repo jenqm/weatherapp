@@ -35,18 +35,13 @@ let weather = {
             
         
     },
-    fetchBackgroundImage: function(city) {
-        fetch(`https://api.unsplash.com/photos/random?query=${city}&client_id=YOUR_UNSPLASH_ACCESS_KEY`)
-        .then((response) => response.json())
-        .then((data) => {
-            const imageUrl = data[0].urls.regular;
-            document.body.style.backgroundImage = `url(${imageUrl})`;
-            document.body.style.backgroundSize = "cover";  // Make the background cover the page
-            document.body.style.backgroundPosition = "center";  // Center the image
-        })
-        .catch((error) => {
-            console.error("Error fetching background image:", error);
-        });
+     fetchBackgroundImage: function() {
+        // Fetch a random image from Lorem Picsum
+        const imageUrl = "https://picsum.photos/1920/1080";  // Set the desired image size here (1920x1080)
+        
+        document.body.style.backgroundImage = `url(${imageUrl})`;
+        document.body.style.backgroundSize = "cover";  // Make the background cover the page
+        document.body.style.backgroundPosition = "center";  // Center the image
     },
     
     search: function() {
