@@ -32,16 +32,23 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%"; 
         document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
         document.querySelector(".weather").classList.remove("loading");
-         // Encoding the city name to avoid any URL issues with special characters or spaces
-        const encodedCityName = encodeURIComponent(name);
-
-        // Set background image with the encoded city name
-        const unsplashUrl = `https://source.unsplash.com/1600x900/?${encodedCityName}`;
-        console.log("Unsplash URL:", unsplashUrl);  // Log the URL for debugging
-        document.body.style.backgroundImage = `url('${unsplashUrl}')`;
-        
+            
         
     },
+    fetchBackgroundImage: function(city) {
+        fetch(`https://api.unsplash.com/photos/random?query=${city}&client_id=YOUR_UNSPLASH_ACCESS_KEY`)
+        .then((response) => response.json())
+        .then((data) => {
+            const imageUrl = data[0].urls.regular;
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+            document.body.style.backgroundSize = "cover";  // Make the background cover the page
+            document.body.style.backgroundPosition = "center";  // Center the image
+        })
+        .catch((error) => {
+            console.error("Error fetching background image:", error);
+        });
+    },
+    
     search: function() {
         this.fetchWeather(document.querySelector(".search-bar").value);
     }
