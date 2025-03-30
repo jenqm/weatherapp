@@ -32,7 +32,12 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%"; 
         document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
         document.querySelector(".weather").classList.remove("loading");
-        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + name +")"
+        // Debug log for Unsplash URL
+        const unsplashUrl = "https://source.unsplash.com/1600x900/?" + name;
+        console.log("Unsplash URL:", unsplashUrl);  // Check what URL is being generated
+        
+        // Set background image
+        document.body.style.backgroundImage = `url('${unsplashUrl}')`;
         
         
     },
