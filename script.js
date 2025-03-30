@@ -8,13 +8,11 @@ let weather = {
             + this.apiKey
         )
         .then((response) => response.json())
-        .then((data) => this.displayWeather(data));
+        .then((data) => {
+            this.displayWeather(data);
+            this.fetchBackgroundImage(city);  // Fetch background image based on city
+        });
     },
-
-    // divide: function (description) {
-    //     let newDescription = description.split(" ");
-    //     return newDescription.length > 1 ? newDescription[1] : newDescription;
-    // },
 
     displayWeather: function (data) {
         const { name } = data;
@@ -22,9 +20,6 @@ let weather = {
         const { temp, humidity } = data.main;
         const { speed } = data.wind;
 
-
-
-    
         document.querySelector(".city").innerText = "Weather in " + name;
         document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
         document.querySelector(".description").innerText = description;
@@ -32,18 +27,26 @@ let weather = {
         document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%"; 
         document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
         document.querySelector(".weather").classList.remove("loading");
-            
-        
     },
-     fetchBackgroundImage: function() {
-        // Fetch a random image from Lorem Picsum
-        const imageUrl = "https://picsum.photos/1920/1080";  // Set the desired image size here (1920x1080)
-        
-        document.body.style.backgroundImage = `url(${imageUrl})`;
-        document.body.style.backgroundSize = "cover";  // Make the background cover the page
-        document.body.style.backgroundPosition = "center";  // Center the image
+
+    fetchBackgroundImage: function(city) {
+        fetch(`https://api.pexels.com/v1/search?query=${city}&per_page=1`, {
+            headers: {
+                Authorization: "7AUmc5NehjL52ubAOIQQ1V28RK0bXDMgPc9Zs84Tl4HpRrk7cuikooz7"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            const imageUrl = data.photos[0].src.original;
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+            document.body.style.backgroundSize = "cover";  // Make the background cover the page
+            document.body.style.backgroundPosition = "center";  // Center the image
+        })
+        .catch((error) => {
+            console.error("Error fetching background image:", error);
+        });
     },
-    
+
     search: function() {
         this.fetchWeather(document.querySelector(".search-bar").value);
     }
